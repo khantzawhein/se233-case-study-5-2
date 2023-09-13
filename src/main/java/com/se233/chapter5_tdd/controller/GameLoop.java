@@ -10,7 +10,7 @@ public class GameLoop implements Runnable {
     private Platform platform;
     private Snake snake;
     private Food food;
-    private float interval = 1000.0f / 8;
+    private float interval = 1000.0f / 5;
     private boolean running;
 
     public GameLoop(Platform platform, Snake snake, Food food) {
