@@ -4,12 +4,15 @@ import com.se233.chapter5_tdd.controller.GameLoop;
 import com.se233.chapter5_tdd.controller.KeyDetectLoop;
 import com.se233.chapter5_tdd.model.Food;
 import com.se233.chapter5_tdd.model.Snake;
+import com.se233.chapter5_tdd.model.SpecialFood;
 import com.se233.chapter5_tdd.view.Platform;
+import javafx.embed.swing.JFXPanel;
 import javafx.geometry.Point2D;
 import javafx.scene.input.KeyCode;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -27,8 +30,9 @@ public class GameLoopTest {
 
     @BeforeEach
     public void init() throws NoSuchMethodException {
+        JFXPanel jfxPanel = new JFXPanel();
         Snake snake = new Snake(new Point2D(0, 0));
-        gameLoopUnderTest = new GameLoop(new Platform(), snake, new Food());
+        gameLoopUnderTest = new GameLoop(new Platform(), snake, new Food(), new SpecialFood());
         keyDetectLoopUnderTest = new KeyDetectLoop(new Platform(), snake);
         update = GameLoop.class.getDeclaredMethod("update");
         update.setAccessible(true);
@@ -65,5 +69,20 @@ public class GameLoopTest {
         keyDetectLoopUnderTest.getPlatform().setKey(KeyCode.UP);
         clockTickHelper();
         assertEquals(keyDetectLoopUnderTest.getSnake().getHead(), new Point2D(0, 3));
+    }
+
+    @Test
+    public void IfSnakeCollidedWithFoodScoreShouldIncrease() throws IllegalAccessException, NoSuchFieldException, InvocationTargetException {
+        gameLoopUnderTest = new GameLoop(new Platform(), new Snake(new Point2D(0, 0)), new Food(new Point2D(0, 1)), new SpecialFood());
+        clockTickHelper();
+        assertEquals(1, gameLoopUnderTest.getScore(), "Score should increase by 1");
+    }
+
+    @Test
+    public void collidingWithSpecialFoodShouldGiveFivePoints() throws InvocationTargetException, IllegalAccessException {
+        gameLoopUnderTest = new GameLoop(new Platform(), new Snake(new Point2D(0, 0)), new Food(), new SpecialFood(new Point2D(0, 1)));
+        clockTickHelper();
+        assertEquals(5, gameLoopUnderTest.getScore(), "Score should increase by 5");
+
     }
 }

@@ -2,6 +2,7 @@ package com.se233.chapter5_tdd.view;
 
 import com.se233.chapter5_tdd.model.Food;
 import com.se233.chapter5_tdd.model.Snake;
+import com.se233.chapter5_tdd.model.SpecialFood;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
@@ -15,15 +16,18 @@ public class Platform extends Pane {
 
     private Canvas canvas;
     private KeyCode key;
+    private Score score;
 
     public Platform() {
         this.setHeight(HEIGHT * TILE_SIZE);
         this.setWidth(WIDTH * TILE_SIZE);
         canvas = new Canvas(WIDTH * TILE_SIZE, HEIGHT * TILE_SIZE);
         this.getChildren().add(canvas);
+        this.score = new Score(10, 10);
+        this.getChildren().add(score);
     }
 
-    public void render(Snake snake, Food food) {
+    public void render(Snake snake, Food food, SpecialFood specialFood) {
         GraphicsContext gc = canvas.getGraphicsContext2D();
         gc.clearRect(0, 0, WIDTH * TILE_SIZE, HEIGHT * TILE_SIZE);
         gc.setFill(Color.BLUE);
@@ -34,6 +38,9 @@ public class Platform extends Pane {
 
         gc.setFill(Color.RED);
         gc.fillRect(food.getPosition().getX() * TILE_SIZE, food.getPosition().getY() * TILE_SIZE, TILE_SIZE, TILE_SIZE);
+
+        gc.setFill(Color.GREEN);
+        gc.fillRect(specialFood.getPosition().getX() * TILE_SIZE, specialFood.getPosition().getY() * TILE_SIZE, TILE_SIZE, TILE_SIZE);
     }
 
     public void setKey(KeyCode key) {
@@ -42,5 +49,9 @@ public class Platform extends Pane {
 
     public KeyCode getKey() {
         return key;
+    }
+
+    public Score getScore() {
+        return score;
     }
 }

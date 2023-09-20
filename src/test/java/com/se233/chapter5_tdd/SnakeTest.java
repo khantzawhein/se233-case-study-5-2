@@ -3,6 +3,7 @@ package com.se233.chapter5_tdd;
 import com.se233.chapter5_tdd.model.Direction;
 import com.se233.chapter5_tdd.model.Food;
 import com.se233.chapter5_tdd.model.Snake;
+import com.se233.chapter5_tdd.model.SpecialFood;
 import javafx.embed.swing.JFXPanel;
 import javafx.geometry.Point2D;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,7 +33,7 @@ public class SnakeTest {
     }
 
     @Test
-    public void collisionFlagShouldRaiseIfSnakeCollideWithDFood() {
+    public void collisionFlagShouldRaiseIfSnakeCollideWithFood() {
         Food food = new Food(new Point2D(0, 0));
         assertTrue(snake.isCollidingWith(food));
     }
@@ -43,6 +44,7 @@ public class SnakeTest {
         food.respawn();
         assertNotSame(food.getPosition(), new Point2D(0, 0));
     }
+
 
     @Test
     public void snakeGrowthShouldAddItsLengthByOne() {
@@ -84,4 +86,10 @@ public class SnakeTest {
         assertTrue(snake.isDead());
     }
 
+    @Test
+    public void specialFoodShouldRespawnOnDifferentCoordinateAfterBeingEaten() {
+        SpecialFood food = new SpecialFood(new Point2D(0, 0));
+        food.respawn();
+        assertNotSame(food.getPosition(), new Point2D(0, 0));
+    }
 }

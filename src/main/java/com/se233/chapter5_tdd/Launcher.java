@@ -4,6 +4,7 @@ import com.se233.chapter5_tdd.controller.GameLoop;
 import com.se233.chapter5_tdd.controller.KeyDetectLoop;
 import com.se233.chapter5_tdd.model.Food;
 import com.se233.chapter5_tdd.model.Snake;
+import com.se233.chapter5_tdd.model.SpecialFood;
 import com.se233.chapter5_tdd.view.Platform;
 import javafx.application.Application;
 import javafx.geometry.Point2D;
@@ -16,7 +17,8 @@ public class Launcher extends Application {
         Platform platform = new Platform();
         Snake snake = new Snake(new Point2D(Platform.WIDTH / 2, Platform.HEIGHT / 2));
         Food food = new Food();
-        GameLoop gameLoop = new GameLoop(platform, snake, food);
+        SpecialFood specialFood = new SpecialFood();
+        GameLoop gameLoop = new GameLoop(platform, snake, food, specialFood);
         KeyDetectLoop keyDetectLoop = new KeyDetectLoop(platform, snake);
         Scene scene = new Scene(platform, Platform.WIDTH * Platform.TILE_SIZE, Platform.HEIGHT * Platform.TILE_SIZE);
         scene.setOnKeyPressed(keyEvent -> platform.setKey(keyEvent.getCode()));
